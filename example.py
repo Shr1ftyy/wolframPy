@@ -1,15 +1,16 @@
 import networkx as nx
+import numpy as np
 import matplotlib.pyplot as plt
 
 '''
 
 This is an example of the very first relation that Wolfram presents as an example:
-{{x, y}, {x, z}} → {{x, z}, {x, w}, {y, w}, {z, w}}
+{{x, y}, {x, z}} -> {{x, z}, {x, w}, {y, w}, {z, w}}
 
 '''
 
 # Maximum iterations
-ITERATIONS = 10
+ITERATIONS = 2000
 
 # Initializes graph
 G = nx.Graph()
@@ -19,50 +20,68 @@ G.add_edge(2, 3)
 G.add_edge(3, 4) 
 G.add_edge(2, 4) 
 
-#Bruteforce search lmao
 c = 0 
 run = True
+
+print(G.edges)
+edges = list(G.edges)
+print(edges[0])
+
+# Cleans up input of relations
+def clean():
+    global x
+    global y
+    global z
+    global edges
+    global G
+
+    edges = list(G.edges)
+
+    for relation in edges:
+        if relation == (x,y) or relation == (x,z):
+            G.remove_edge(*relation)
+
+#Bruteforce search lmao
 while run:
-    print(c)
-    foundy=False
-    foundz=False
-    for relation in G.edges:
+    for relation in edges:
+        foundy=False
+        foundz=False
         x = relation[0]
-        for search in G.edges:
-            if foundy == False:
-                if search[0] == x:
-                    y = search[1]
-                    foundy == True
-                    print('FOUND Y')
-                else:
-                    pass
-            else:
+        for search in edges:
+            if foundy:
+                # print('x: {x}\nsearch[0]: {search[0]}')
+                # exit()
+
                 if search[0] == x:
                     if search[1] != y:
                         z = search[1]
                         foundz = True
-                    print('FOUND Z')
+
+            else:
+                if search[0] == x:
+                    y = search[1]
+                    foundy = True
 
         if foundy and foundz:
+            clean()
             G.add_edge(x,z)
-            G.add_edge(x,9)
-            G.add_edge(y,9)
-            G.add_edge(z,9)
+            G.add_edge(x,str(c))
+            G.add_edge(y,str(c))
+            G.add_edge(z,str(c))
+            edges = list(G.edges)
             c += 1
-            break
 
-        if c == ITERATIONS or (not foundy and not foundz):
+        if c >= ITERATIONS: 
+            print(c)
             run == False
+            # print(edges)
+            fig, ax = plt.subplots()
+            ax.set_facecolor('black')
+            nx.draw(G, with_labels=False, node_shape='.',node_color='w', edge_color='w', node_size=20)
+            ax.set_facecolor('black')
+            ax.axis('off')
+            fig.set_facecolor('black')
 
-
-plt.subplot(121)
-nx.draw(G, with_labels=True, font_weight='bold')
-# plt.subplot(122)
-
-# nx.draw_shell(G, with_labels=True, font_weight='bold')
-
-print(G.edges)
-
-# Shows graph
-plt.show()
-
+            # Shows graph
+            plt.show()
+            exit()
