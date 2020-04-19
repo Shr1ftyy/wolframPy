@@ -1,4 +1,4 @@
-# wolframPy - an implementation rule-based hypergraphs#
+# wolframPy - an implementation rule-based hypergraphs #
 
 ## Introduction ##
 
