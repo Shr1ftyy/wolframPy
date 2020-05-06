@@ -5,12 +5,14 @@ import matplotlib.pyplot as plt
 '''
 
 This is an example of the very first relation that Wolfram presents as an example:
-{{x, y}, {x, z}} -> {{x, z}, {x, w}, {y, w}, {z, w}}
+{(x, y), (x, z)} -> {(x, z), (x, w), (y, w), (z, w)}
+
+Currently tweaking script to make it more general - general.py
 
 '''
 
 # Maximum iterations
-ITERATIONS = 2000
+ITERATIONS = 100
 
 # Initializes graph
 G = nx.Graph()
@@ -37,9 +39,11 @@ def clean():
 
     edges = list(G.edges)
 
+    # for relation in edges:
+    #     if relation == (x,y) or relation == (x,z):
+    #         G.remove_edge(*relation)
+
     for relation in edges:
-        if relation == (x,y) or relation == (x,z):
-            G.remove_edge(*relation)
 
 #Bruteforce search lmao
 while run:
