@@ -77,7 +77,7 @@ while run:
 
         if c >= ITERATIONS: 
             print(c)
-            run == False
+            run = False
             # print(edges)
             fig, ax = plt.subplots()
             ax.set_facecolor('black')
