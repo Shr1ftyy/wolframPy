@@ -39,13 +39,12 @@ def clean():
 
     edges = list(G.edges)
 
-    # for relation in edges:
-    #     if relation == (x,y) or relation == (x,z):
-    #         G.remove_edge(*relation)
-
     for relation in edges:
+        if relation == (x,y) or relation == (x,z):
+            G.remove_edge(*relation)
 
-#Bruteforce search lmao
+
+        #Bruteforce search lmao
 while run:
     for relation in edges:
         foundy=False
